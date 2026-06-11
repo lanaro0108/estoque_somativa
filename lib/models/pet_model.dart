@@ -1,11 +1,11 @@
 class Pet {
-  int? id; //pode ser nulo inicialmente
+  int? id; // Pode ser nulo inicialmente
   String nome;
   String raca;
   String nomeDono;
   String telefone;
 
-  //construtor
+  // Construtor
   Pet({
     this.id,
     required this.nome,
@@ -14,8 +14,8 @@ class Pet {
     required this.telefone,
   });
 
-  //Mapeamento de dados do BD
-  //toMap
+  // Mapeamento de dados do BD
+  // ToMap
   Map<String, dynamic> toMap() {
     return {
       "id": id,
@@ -26,7 +26,7 @@ class Pet {
     };
   }
 
-  //FromMap
+  // FromMap
   factory Pet.fromMap(Map<String, dynamic> map) {
     return Pet(
       id: map["id"],

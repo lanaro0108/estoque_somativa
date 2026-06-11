@@ -5,20 +5,20 @@ import 'package:sqflite/sqflite.dart';
 import 'package:sqflite/sqlite_api.dart';
 
 class DatabaseHelper {
-  //Transforma essa classe em singleton
-  //não permite instanciar outro obj enquanto um obj estiver ativo
+  // Transforma essa classe em singleton
+  // Não permite instanciar outro obj enquanto um obj estiver ativo
   static final DatabaseHelper _instance = DatabaseHelper._internal();
 
-  //Construir o Singleton
-  // essa Classe não Possui um Construtor Normal,
-  //ele Precisa do factory para estabelecer a conexão
+  // Construir o singleton
+  // Essa classe não possui um construtor normal,
+  // Ele precisa do factory para estabelecer a conexão
   DatabaseHelper._internal();
   factory DatabaseHelper() => _instance;
 
-  //Conector do Banco de Dados
-  Database? _database; //Privado
+  // Conector do banco de dados
+  Database? _database; // Privado
 
-  //get database
+  // Get database
   Future<Database> get database async {
     if (_database != null) return _database!;
     _database = await _initDb();
@@ -26,7 +26,7 @@ class DatabaseHelper {
   }
 
   Future<Database> _initDb() async {
-    //pegar o armazenamento do banco
+    // Pegar o armazenamento do banco
     String path = join(await getDatabasesPath(), "petshop.db");
     return await openDatabase(
       path,
@@ -46,12 +46,12 @@ class DatabaseHelper {
           FOREIGN KEY(petId) REFERENCES pets(id) ON DELETE CASCADE)''');
       },
       onConfigure: (db) async =>
-          await db.execute("PRAGMA foreign_keys = ON"), //delete on CASCADE
+          await db.execute("PRAGMA foreign_keys = ON"), // Delete on CASCADE
     );
   }
 
-  //Métodos CRUD Simplificados
-  //inserir pet no BD
+  // Métodos CRUD simplificados
+  // Inserir pet no BD
   Future<int> insertPet(Pet pet) async =>
       (await database).insert("pets", pet.toMap());
 
@@ -64,11 +64,11 @@ class DatabaseHelper {
     return List.generate(maps.length, (e) => Pet.fromMap(maps[e]));
   }
 
-  //InsertConsulta
+  // InsertConsulta
   Future<int> insertConsulta(Consulta c) async =>
       (await database).insert("consultas", c.toMap());
 
-  //Get Consultas por Pet
+  // Get Consultas por Pet
   Future<List<Consulta>> getConsultasPorPet(int petId) async {
     final List<Map<String, dynamic>> maps = await (await database).query(
       "consultas",

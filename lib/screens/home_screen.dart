@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:sa_petshop_sqlite/controller/pet_controller.dart';
-import 'package:sa_petshop_sqlite/model/pet_model.dart';
+import 'package:sa_petshop_sqlite/controllers/pet_controller.dart';
+import 'package:sa_petshop_sqlite/models/pet_model.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});

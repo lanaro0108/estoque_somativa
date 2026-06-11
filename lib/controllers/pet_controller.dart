@@ -10,5 +10,5 @@ class PetController {
 
   Future<List<Pet>> readPet() async => _dbHelper.getPets();
 
-  Future<List<Pet>>? listarTodos() async {}
+  Future<List<Pet>>? listarTodos() async => _dbHelper.getPets();
 }
