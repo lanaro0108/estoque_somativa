@@ -1,24 +1,15 @@
 import 'package:path/path.dart';
-import 'package:sa_petshop_sqlite/models/pet_model.dart';
-import 'package:sa_petshop_sqlite/models/consulta_model.dart';
+import 'package:sa_estoque_somativa/models/produto_model.dart';
+import 'package:sa_estoque_somativa/models/movimentacao_model.dart';
 import 'package:sqflite/sqflite.dart';
-import 'package:sqflite/sqlite_api.dart';
 
 class DatabaseHelper {
-  // Transforma essa classe em singleton
-  // Não permite instanciar outro obj enquanto um obj estiver ativo
   static final DatabaseHelper _instance = DatabaseHelper._internal();
-
-  // Construir o singleton
-  // Essa classe não possui um construtor normal,
-  // Ele precisa do factory para estabelecer a conexão
   DatabaseHelper._internal();
   factory DatabaseHelper() => _instance;
 
-  // Conector do banco de dados
-  Database? _database; // Privado
+  Database? _database;
 
-  // Get database
   Future<Database> get database async {
     if (_database != null) return _database!;
     _database = await _initDb();
@@ -26,55 +17,65 @@ class DatabaseHelper {
   }
 
   Future<Database> _initDb() async {
-    // Pegar o armazenamento do banco
-    String path = join(await getDatabasesPath(), "petshop.db");
+    String path = join(await getDatabasesPath(), "estoque.db");
     return await openDatabase(
       path,
       version: 1,
+      onConfigure: (db) async => await db.execute("PRAGMA foreign_keys = ON"),
       onCreate: (db, version) async {
-        await db.execute('''CREATE TABLE pets(
-          id INTEGER PRIMARY KEY AUTOINCREMENT, 
-          nome TEXT, raca TEXT, 
-          nomeDono TEXT, 
-          telefone TEXT)''');
-        await db.execute('''CREATE TABLE consultas(
-          id INTEGER PRIMARY KEY AUTOINCREMENT, 
-          petId INTEGER, 
-          tipoServico TEXT, 
-          dataHora TEXT, 
-          observacoes TEXT,
-          FOREIGN KEY(petId) REFERENCES pets(id) ON DELETE CASCADE)''');
+        await db.execute('''CREATE TABLE produtos(
+          id INTEGER PRIMARY KEY AUTOINCREMENT,
+          nome TEXT,
+          descricao TEXT,
+          precoCusto REAL,
+          precoVenda REAL,
+          quantidadeEstoque INTEGER,
+          codigo TEXT)''');
+        await db.execute('''CREATE TABLE movimentacoes(
+          id INTEGER PRIMARY KEY AUTOINCREMENT,
+          produtoId INTEGER,
+          tipoMovimentacao TEXT,
+          quantidade INTEGER,
+          dataHora TEXT,
+          observacao TEXT,
+          FOREIGN KEY(produtoId) REFERENCES produtos(id) ON DELETE CASCADE)''');
       },
-      onConfigure: (db) async =>
-          await db.execute("PRAGMA foreign_keys = ON"), // Delete on CASCADE
     );
   }
 
-  // Métodos CRUD simplificados
-  // Inserir pet no BD
-  Future<int> insertPet(Pet pet) async =>
-      (await database).insert("pets", pet.toMap());
+  Future<int> insertProduto(Produto produto) async =>
+      (await database).insert("produtos", produto.toMap());
 
-  // Listar Pets do BD
-  Future<List<Pet>> getPets() async {
+  Future<List<Produto>> getProdutos() async {
     final List<Map<String, dynamic>> maps = await (await database).query(
-      "pets",
+      "produtos",
       orderBy: "nome ASC",
     );
-    return List.generate(maps.length, (e) => Pet.fromMap(maps[e]));
+    return List.generate(maps.length, (e) => Produto.fromMap(maps[e]));
   }
 
-  // InsertConsulta
-  Future<int> insertConsulta(Consulta c) async =>
-      (await database).insert("consultas", c.toMap());
+  Future<int> updateProduto(Produto produto) async =>
+      (await database).update(
+        "produtos",
+        produto.toMap(),
+        where: "id = ?",
+        whereArgs: [produto.id],
+      );
 
-  // Get Consultas por Pet
-  Future<List<Consulta>> getConsultasPorPet(int petId) async {
+  Future<int> insertMovimentacao(Movimentacao movimentacao) async =>
+      (await database).insert("movimentacoes", movimentacao.toMap());
+
+  Future<List<Movimentacao>> getMovimentacoesPorProduto(int produtoId) async {
     final List<Map<String, dynamic>> maps = await (await database).query(
-      "consultas",
-      where: "petId = ?",
-      whereArgs: [petId],
+      "movimentacoes",
+      where: "produtoId = ?",
+      whereArgs: [produtoId],
+      orderBy: "dataHora DESC",
     );
-    return List.generate(maps.length, (e) => Consulta.fromMap(maps[e]));
+    return List.generate(
+      maps.length,
+      (e) => Movimentacao.fromMap(maps[e]),
+    );
   }
 }
+

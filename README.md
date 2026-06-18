@@ -1,4 +1,4 @@
-# Documentação de Requsitos de Software (DRS / SDR) - App PetShop
+# Documentação de Requsitos de Software (DRS / SDR) - Controle de Estoque Simples
 
 **Padrão de Refência:** ISO/IEC/IEEE 29148:2018
 
@@ -10,11 +10,11 @@
 
 ### 1.1 Finalidade
 
-Este documento especifica os requisitos e a arquitetura do aplicativo móvel de Gerenciamento de Consultas de PetShop. O sistema utiliza o framework Flutter para a interface de usuário e lógica de controle, e o banco de dados SQLite para persistência local de dados.
+Este documento especifica os requisitos e a arquitetura do aplicativo móvel de Controle de Estoque Simples. O sistema utiliza o framework Flutter para a interface de usuário e lógica de controle, e o banco de dados SQLite para persistência local de dados.
 
 ### 1.2 Escopo do Sistema
 
-O aplicativo destina-se a atendentes e gestores de PetShops. Ele permite o cadastro local de animais de estimação (pets), o registro de seus respectivos donos e o agendamento/histórico de consultas e serviços médicos ou de estética (banho, tosa, consultas veterinárias).
+O aplicativo destina-se a pequenos negócios que precisam controlar produtos e movimentações de estoque. Ele permite o cadastro local de produtos, a visualização dos detalhes de cada produto e o registro de entradas e saídas de estoque.
 
 * **O que está no escopo:** Cadastro offline, persistência em banco relacional local (SQLite), validação de formulários, visualização de histórico de consultas por pet.
 * **O que está fora de escopo:** Autenticação de usuários (login), sincronização em nuvem (Cloud API), notificações *push* em tempo real e gateway de pagamento.

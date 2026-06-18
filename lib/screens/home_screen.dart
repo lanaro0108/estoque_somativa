@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
-import 'package:sa_petshop_sqlite/controllers/pet_controller.dart';
-import 'package:sa_petshop_sqlite/models/pet_model.dart';
-import 'package:sa_petshop_sqlite/screens/add_pet_screen.dart';
-import 'package:sa_petshop_sqlite/screens/pet_detail_screen.dart';
+import 'package:sa_estoque_somativa/controllers/produto_controller.dart';
+import 'package:sa_estoque_somativa/models/produto_model.dart';
+import 'package:sa_estoque_somativa/screens/add_produto_screen.dart';
+import 'package:sa_estoque_somativa/screens/produto_detail_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -13,29 +12,28 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  final PetController _controller = PetController();
+  final ProdutoController _controller = ProdutoController();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("PetShop - Lista de Pets")),
-      body: FutureBuilder<List<Pet>>(
+      appBar: AppBar(title: Text("Controle de Estoque - Produtos")),
+      body: FutureBuilder<List<Produto>>(
         future: _controller.listarTodos(),
         builder: (context, snapshot) {
-          if (!snapshot.hasData)
-            return Center(child: CircularProgressIndicator());
-          final pets = snapshot.data!;
+          if (!snapshot.hasData) return Center(child: CircularProgressIndicator());
+          final produtos = snapshot.data!;
           return ListView.builder(
-            itemCount: pets.length,
+            itemCount: produtos.length,
             itemBuilder: (context, i) => ListTile(
-              leading: Icon(Icons.pets),
-              title: Text(pets[i].nome),
-              subtitle: Text(pets[i].raca),
-              // Ao clicar abre a tela de detalhes do pet
+              leading: Icon(Icons.inventory_2),
+              title: Text(produtos[i].nome),
+              subtitle: Text(
+                  "Código: ${produtos[i].codigo} · Estoque: ${produtos[i].quantidadeEstoque}"),
               onTap: () => Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (c) => PetDetailScreen(pet: pets[i]),
+                  builder: (c) => ProdutoDetailScreen(produto: produtos[i]),
                 ),
               ).then((value) => setState(() {})),
             ),
@@ -46,9 +44,10 @@ class _HomeScreenState extends State<HomeScreen> {
         child: Icon(Icons.add),
         onPressed: () => Navigator.push(
           context,
-          MaterialPageRoute(builder: (c) => AddPetScreen()),
+          MaterialPageRoute(builder: (c) => AddProdutoScreen()),
         ).then((value) => setState(() {})),
       ),
     );
   }
 }
+
