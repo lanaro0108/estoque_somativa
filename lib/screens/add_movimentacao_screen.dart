@@ -63,14 +63,14 @@ class _AddMovimentacaoScreenState extends State<AddMovimentacaoScreen> {
         quantidade: quantidade,
         dataHora: dataFinal.toIso8601String(),
         observacao: _observacaoController.text.trim().isEmpty
-            ? 'Sem observações'
+            ? 'Sem observaï¿½ï¿½es'
             : _observacaoController.text.trim(),
       );
 
       try {
         await _movimentacaoController.salvaMovimentacao(movimentacao, widget.produto);
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Movimentação registrada com sucesso!')),
+          SnackBar(content: Text('Movimentaï¿½ï¿½o registrada com sucesso!')),
         );
         Navigator.pop(context, true);
       } catch (e) {
@@ -84,7 +84,7 @@ class _AddMovimentacaoScreenState extends State<AddMovimentacaoScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Registrar Movimentação')),
+      appBar: AppBar(title: Text('Registrar Movimentaï¿½ï¿½o')),
       body: SingleChildScrollView(
         padding: EdgeInsets.all(16.0),
         child: Form(
@@ -95,10 +95,10 @@ class _AddMovimentacaoScreenState extends State<AddMovimentacaoScreen> {
               DropdownButtonFormField<String>(
                 value: _tipoMovimentacao,
                 decoration: InputDecoration(
-                  labelText: 'Tipo de Movimentação',
+                  labelText: 'Tipo de Movimentaï¿½ï¿½o',
                   border: OutlineInputBorder(),
                 ),
-                items: ['Entrada', 'Saída']
+                items: ['Entrada', 'Saï¿½da']
                     .map((tipo) => DropdownMenuItem(
                           value: tipo,
                           child: Text(tipo),
@@ -126,7 +126,7 @@ class _AddMovimentacaoScreenState extends State<AddMovimentacaoScreen> {
                     return 'Informe a quantidade';
                   }
                   if (int.tryParse(value) == null || int.parse(value) <= 0) {
-                    return 'Quantidade inválida';
+                    return 'Quantidade invï¿½lida';
                   }
                   return null;
                 },
@@ -154,7 +154,7 @@ class _AddMovimentacaoScreenState extends State<AddMovimentacaoScreen> {
                 controller: _observacaoController,
                 maxLines: 3,
                 decoration: InputDecoration(
-                  labelText: 'Observação',
+                  labelText: 'Observaï¿½ï¿½o',
                   prefixIcon: Icon(Icons.note),
                   border: OutlineInputBorder(),
                 ),
@@ -166,7 +166,7 @@ class _AddMovimentacaoScreenState extends State<AddMovimentacaoScreen> {
                   padding: EdgeInsets.symmetric(vertical: 16),
                   textStyle: TextStyle(fontSize: 18),
                 ),
-                child: Text('Registrar Movimentação'),
+                child: Text('Registrar Movimentaï¿½ï¿½o'),
               ),
             ],
           ),

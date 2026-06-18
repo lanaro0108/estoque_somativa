@@ -24,7 +24,7 @@ class _ProdutoDetailScreenState extends State<ProdutoDetailScreen> {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Padding(
-            padding: const EdgeInsets.all(16.0),
+            padding: EdgeInsets.all(16.0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -46,7 +46,7 @@ class _ProdutoDetailScreenState extends State<ProdutoDetailScreen> {
           ),
           Divider(),
           Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: EdgeInsets.all(8.0),
             child: Text(
               "Histórico de Movimentações",
               style: TextStyle(fontWeight: FontWeight.bold),
@@ -102,7 +102,7 @@ class _ProdutoDetailScreenState extends State<ProdutoDetailScreen> {
         onPressed: () => Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (c) => AddMovimentacaoScreen(produto: widget.produto),
+            builder: (c) => AddMovimentacao(produto: widget.produto),
           ),
         ).then((value) => setState(() {})),
       ),
