@@ -28,18 +28,19 @@ class _ProdutoDetailScreenState extends State<ProdutoDetailScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  widget.produto.descricao,
-                  style: TextStyle(fontSize: 16),
-                ),
+                Text(widget.produto.descricao, style: TextStyle(fontSize: 16)),
                 SizedBox(height: 12),
                 Text("Código: ${widget.produto.codigo}"),
                 SizedBox(height: 8),
                 Text("Estoque atual: ${widget.produto.quantidadeEstoque}"),
                 SizedBox(height: 8),
-                Text("Preço de custo: R\$ ${widget.produto.precoCusto.toStringAsFixed(2)}"),
+                Text(
+                  "Preço de custo: R\$ ${widget.produto.precoCusto.toStringAsFixed(2)}",
+                ),
                 SizedBox(height: 4),
-                Text("Preço de venda: R\$ ${widget.produto.precoVenda.toStringAsFixed(2)}"),
+                Text(
+                  "Preço de venda: R\$ ${widget.produto.precoVenda.toStringAsFixed(2)}",
+                ),
               ],
             ),
           ),
@@ -53,12 +54,17 @@ class _ProdutoDetailScreenState extends State<ProdutoDetailScreen> {
           ),
           Expanded(
             child: FutureBuilder<List<Movimentacao>>(
-              future: DatabaseHelper().getMovimentacoesPorProduto(widget.produto.id!),
+              future: DatabaseHelper().getMovimentacoesPorProduto(
+                widget.produto.id!,
+              ),
               builder: (context, snapshot) {
-                if (!snapshot.hasData) return Center(child: CircularProgressIndicator());
+                if (!snapshot.hasData)
+                  return Center(child: CircularProgressIndicator());
                 final movimentacoes = snapshot.data!;
                 if (movimentacoes.isEmpty) {
-                  return Center(child: Text('Nenhuma movimentação registrada.'));
+                  return Center(
+                    child: Text('Nenhuma movimentação registrada.'),
+                  );
                 }
                 return ListView.builder(
                   itemCount: movimentacoes.length,
@@ -75,9 +81,11 @@ class _ProdutoDetailScreenState extends State<ProdutoDetailScreen> {
                               : Colors.red,
                         ),
                         title: Text(
-                            '${mov.tipoMovimentacao} - ${mov.quantidade} unidades'),
+                          '${mov.tipoMovimentacao} - ${mov.quantidade} unidades',
+                        ),
                         subtitle: Text(
-                            '${_formatador.format(DateTime.parse(mov.dataHora))}\n${mov.observacao}'),
+                          '${_formatador.format(DateTime.parse(mov.dataHora))}\n${mov.observacao}',
+                        ),
                         isThreeLine: true,
                       ),
                     );
@@ -101,4 +109,3 @@ class _ProdutoDetailScreenState extends State<ProdutoDetailScreen> {
     );
   }
 }
-
