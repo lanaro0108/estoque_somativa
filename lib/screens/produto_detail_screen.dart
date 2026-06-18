@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:sa_estoque_somativa/database/database_helper.dart';
 import 'package:sa_estoque_somativa/models/movimentacao_model.dart';
 import 'package:sa_estoque_somativa/models/produto_model.dart';
-import 'add_movimentacao_screen.dart';
+import 'add_movimentacao_screen.dart'; // Erro
 import 'package:intl/intl.dart';
 
 class ProdutoDetailScreen extends StatefulWidget {
